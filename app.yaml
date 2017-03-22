@@ -3,8 +3,8 @@ api_version: 1
 threadsafe: yes
 
 handlers:
-- url: .*
-  script: bot_gae.app
+- url: /.*
+  script: cert.application
 
 libraries:
 - name: webapp2

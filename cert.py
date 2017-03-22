@@ -1,15 +1,10 @@
-from google.appengine.ext import webapp
+from webapp2 import *
 
-class LetsEncryptHandler(webapp.RequestHandler):
+class LetsEncryptHandler(RequestHandler):
 
     def get(self, challenge):
         self.response.headers['Content-Type'] = 'text/plain'
-        responses = {
-                    '[challenge 1]': '[response 1]',
-                    '[challenge 2]': '[response 2]'
-                }
-        self.response.write(responses.get(challenge, ''))
-
-application = webapp.WSGIApplication([
+        self.response.write('ME-cbDcQdemUHVievxTI_XfW6LBHKZ2E4v0aeewk1lA.UYWdktLXsGzSHhuUf5CRC-Hlu7NoHtUS2jOJL2NfQ48')
+application = WSGIApplication([
     ('/.well-known/acme-challenge/([\w-]+)', LetsEncryptHandler),
 ])
