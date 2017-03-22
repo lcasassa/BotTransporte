@@ -1,7 +1,12 @@
 #!/usr/bin/env python
+import logging
+
 import os
 from google.appengine.ext import vendor
 vendor.add(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
+
+import sys
+logging.info(str(sys.path))
 
 import telegram
 from flask import Flask, request
