@@ -13,7 +13,7 @@ global bot
 bot = telegram.Bot(token='361644162:AAGbFjy05HbhgK5CptAp6RNPuj70-AjmU8E')
 
 
-@app.route('/HOOK', methods=['POST'])
+@app.route('/webhook', methods=['POST'])
 def webhook_handler():
     if request.method == "POST":
         # retrieve the message in JSON and then transform it to Telegram object
@@ -32,7 +32,7 @@ def webhook_handler():
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
-    s = bot.setWebhook('https://URL/HOOK')
+    s = bot.setWebhook('https://viajes.casassa.cl/webhook')
     if s:
         return "webhook setup ok"
     else:
