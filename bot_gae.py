@@ -5,9 +5,6 @@ import os
 from google.appengine.ext import vendor
 vendor.add(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
 
-import sys
-logging.info(str(sys.path))
-
 import telegram
 from flask import Flask, request
 import facebook
@@ -38,6 +35,8 @@ def webhook_handler():
 
 	graph = facebook.GraphAPI(access_token)
 	profile = graph.get_object(group+'/feed')
+
+        logging.info(str(profile))
 
 	data = profile['data']
 	for k in xrange(len(data)):
