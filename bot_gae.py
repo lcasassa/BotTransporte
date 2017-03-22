@@ -10,6 +10,10 @@ logging.info(str(sys.path))
 
 import telegram
 from flask import Flask, request
+import facebook
+import requests
+import datetime
+
 
 app = Flask(__name__)
 
@@ -28,8 +32,18 @@ def webhook_handler():
         # Telegram understands UTF-8, so encode text for unicode compatibility
         text = update.message.text.encode('utf-8')
 
-        # repeat the same message back (echo)
-        bot.sendMessage(chat_id=chat_id, text=text)
+	access_token = '143482932843931|_cRZXkEO6FGQgyC1Vv0xK66wKKA'
+	group = '402215639851440'
+	#group = '147488415316365'
+
+	graph = facebook.GraphAPI(access_token)
+	profile = graph.get_object(group+'/feed')
+
+	data = profile['data']
+	for k in xrange(len(data)):
+	    data[k]['updated_time'] = datetime.datetime.strptime(data[k]['updated_time'], "%Y-%m-%dT%H:%M:%S+%f")
+	for p in sorted(data, key=lambda x: x['updated_time']):
+            bot.sendMessage(chat_id=chat_id, text=p['updated_time']+': '+ p['message'])
 
     return 'ok'
 
