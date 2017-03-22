@@ -42,7 +42,7 @@ def webhook_handler():
 	for k in xrange(len(data)):
 	    data[k]['updated_time'] = datetime.datetime.strptime(data[k]['updated_time'], "%Y-%m-%dT%H:%M:%S+%f")
 	for p in sorted(data, key=lambda x: x['updated_time']):
-            bot.sendMessage(chat_id=chat_id, text=p['updated_time']+': '+ p['message'])
+            bot.sendMessage(chat_id=chat_id, text=str(p['updated_time'])+': '+ str(p['message']))
 
     return 'ok'
 
