@@ -36,8 +36,6 @@ def webhook_handler():
 	graph = facebook.GraphAPI(access_token)
 	profile = graph.get_object(group+'/feed')
 
-        logging.info(str(profile))
-
 	data = profile['data']
 	for k in xrange(len(data)):
 	    data[k]['updated_time'] = datetime.datetime.strptime(data[k]['updated_time'], "%Y-%m-%dT%H:%M:%S+%f")
