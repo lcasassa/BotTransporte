@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-
-import sys
-import os
-sys.path.append(os.path.join(os.path.abspath('.'), 'venv/lib/site-packages'))
+from google.appengine.ext import vendor
+vendor.add(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
 
 import telegram
 from flask import Flask, request
