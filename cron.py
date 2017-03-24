@@ -43,7 +43,7 @@ def cron_handler():
             k = post.put()
             logging.info("key id: %s %s" % (str(k.id), p['id']))
 
-    logging.info(Post.query_post().fetch(2))
+    logging.info(Post.query().order(-Post.date).fetch(2))
 
     return 'ok'
 
