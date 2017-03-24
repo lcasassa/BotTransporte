@@ -37,11 +37,13 @@ def cron_handler():
         data[k]['updated_time'] = datetime.datetime.strptime(data[k]['updated_time'], "%Y-%m-%dT%H:%M:%S+%f")
 
     for p in sorted(data, key=lambda x: x['updated_time']):
-        query = Post.post(Post.fb_id == p['id'])
-        post = Post(fb_id=p['id'], date=p['updated_time'], text=p['message'])
-        k = post.put()
-        logging.info("key id: %s %s" % (str(k.id), p['id']))
-        logging.info(Post.query_post().fetch(2))
+        query = Post.query(Post.fb_id == p['id']).fetch(1)
+        if len(query) <= 0:
+            post = Post(fb_id=p['id'], date=p['updated_time'], text=p['message'])
+            k = post.put()
+            logging.info("key id: %s %s" % (str(k.id), p['id']))
+
+    logging.info(Post.query_post().fetch(2))
 
     return 'ok'
 
