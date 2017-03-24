@@ -26,7 +26,7 @@ def webhook_handler():
 
         posts = Post.query().order(-Post.date).fetch(2)
         for post in posts:
-            bot.sendMessage(chat_id=chat_id, text=str(post))
+            bot.sendMessage(chat_id=chat_id, text=u'%s' % str(post.date) + u'\n' + post.text.encode('utf-8'))
 
     return 'ok'
 
