@@ -30,20 +30,17 @@ class Post(ndb.Model):
 
 @app.route('/cron', methods=['GET', 'POST'])
 def cron_handler():
-	graph = facebook.GraphAPI(access_token)
-	profile = graph.get_object(group+'/feed')
+    graph = facebook.GraphAPI(access_token)
+    profile = graph.get_object(group+'/feed')
+    data = profile['data']
+    for k in xrange(len(data)):
+        data[k]['updated_time'] = datetime.datetime.strptime(data[k]['updated_time'], "%Y-%m-%dT%H:%M:%S+%f")
 
-	data = profile['data']
-	for k in xrange(len(data)):
-	    data[k]['updated_time'] = datetime.datetime.strptime(data[k]['updated_time'], "%Y-%m-%dT%H:%M:%S+%f")
-
-	for p in sorted(data, key=lambda x: x['updated_time']):
-            query = Post.post(Post.fb_id == p['id'])
-
-            post = Post(fb_id=p['id'], date=p['updated_time'], text=p['message'])
-            k = post.put()
-            logging.info("key id: %s %s" % (str(k.id), p['id']))
-
+    for p in sorted(data, key=lambda x: x['updated_time']):
+        query = Post.post(Post.fb_id == p['id'])
+        post = Post(fb_id=p['id'], date=p['updated_time'], text=p['message'])
+        k = post.put()
+        logging.info("key id: %s %s" % (str(k.id), p['id']))
         logging.info(Post.query_post().fetch(2)))
 
     return 'ok'
