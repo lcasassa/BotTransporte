@@ -7,6 +7,6 @@ class Post(ndb.Model):
     date = ndb.DateTimeProperty()
 
 class LastPostSent(ndb.Model):
-    chat_id = ndb.StringProperty()
+    #chat_id = ndb.StringProperty() #using id as chat_id
     date = ndb.DateTimeProperty()
 

@@ -26,7 +26,7 @@ def webhook_handler():
         text = update.message.text.encode('utf-8')
 
         date = datetime.datetime.now() - datetime.timedelta(hours=12)
-        lastpostsent = LastPostSent().get_or_insert(chat_id=chat_id, date=date)
+        lastpostsent = LastPostSent().get_or_insert(chat_id, date=date)
 
         if lastpostsent.date < date:
             lastpostsent.date = date
