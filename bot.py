@@ -35,7 +35,7 @@ def webhook_handler():
 
         posts = Post.query(Post.date > lastpostsent.date).order(Post.date).fetch()
         for post in posts:
-            bot.sendMessage(chat_id=chat_id, text=u'%s' % str(post.date) + u'\n' + u'%s' % post.text)
+            bot.sendMessage(chat_id=chat_id, text=u'%s' % str(post.date-datetime.timedelta(hours=3)) + u'\n' + u'%s' % post.text)
             postdate = post.date
         if len(posts) <= 0:
             bot.sendMessage(chat_id=chat_id, text=u'No hay nuevos posts. :/ Intenta mas tarde.')
