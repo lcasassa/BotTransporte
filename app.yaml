@@ -10,8 +10,6 @@ handlers:
   script: bot.app
 - url: /webhook
   script: bot.app
-- url: /reset
-  script: bot.app
 
 libraries:
 - name: webapp2

@@ -27,6 +27,8 @@ def webhook_handler():
 
         date = datetime.datetime.now() - datetime.timedelta(hours=12)
         lastpostsent = LastPostSent().get_or_insert(str(chat_id), date=date)
+        if text == '/reset':
+            lastpostsent.date = datetime.datetime.now() - datetime.timedelta(hours=100)
         bot.sendMessage(chat_id=chat_id, text=str(lastpostsent))
 
         if lastpostsent.date < date:
@@ -44,11 +46,6 @@ def webhook_handler():
 
     return 'ok'
 
-@app.route('/reset', methods=['GET', 'POST'])
-def set_reset():
-    l = LastPostSent().get_or_insert('90004065')
-    l.delete()
-    return 'ok'
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
