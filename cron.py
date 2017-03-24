@@ -19,7 +19,7 @@ app = Flask(__name__)
 
 
 class Post(ndb.Model):
-    text = ndb.StringProperty(multiline=True)
+    text = ndb.StringProperty()
     fb_id = ndb.StringProperty()
     date = ndb.DateTimeProperty(auto_now_add=True)
 
