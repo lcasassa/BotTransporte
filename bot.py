@@ -24,7 +24,7 @@ def webhook_handler():
 
         text = update.message.text.encode('utf-8')
 
-        posts = Post.query().order(-Post.date).fetch(2)
+        posts = Post.query(Post.date > (datetime.datetime.now()-datetime.timedelta(hours=12))).order(-Post.date).fetch(2)
         for post in posts:
             bot.sendMessage(chat_id=chat_id, text=u'%s' % str(post.date) + u'\n' + u'%s' % post.text)
 
