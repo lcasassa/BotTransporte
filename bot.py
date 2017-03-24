@@ -34,7 +34,7 @@ def webhook_handler():
         if lastpostsent.date < date:
             lastpostsent.date = date
 
-        posts = Post.query(Post.date > lastpostsent.date).order(-Post.date).fetch()
+        posts = Post.query(Post.date > lastpostsent.date).order(Post.date).fetch()
         for post in posts:
             bot.sendMessage(chat_id=chat_id, text=u'%s' % str(post.date) + u'\n' + u'%s' % post.text)
             postdate = post.date
