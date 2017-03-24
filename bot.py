@@ -8,6 +8,7 @@ vendor.add(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
 import telegram
 from flask import Flask, request
 from db import Post
+import datetime
 
 
 app = Flask(__name__)
