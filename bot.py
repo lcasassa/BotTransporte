@@ -44,6 +44,11 @@ def webhook_handler():
 
     return 'ok'
 
+@app.route('/reset', methods=['GET', 'POST'])
+def set_webhook():
+    l = LastPostSent().get_or_insert('90004065')
+    l.delete()
+    return 'ok'
 
 @app.route('/set_webhook', methods=['GET', 'POST'])
 def set_webhook():
