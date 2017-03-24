@@ -6,9 +6,8 @@ from google.appengine.ext import vendor
 vendor.add(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
 
 from google.appengine.ext import ndb
-from flask import Flask, request
+from flask import Flask
 import facebook
-import requests
 import datetime
 
 access_token = '143482932843931|_cRZXkEO6FGQgyC1Vv0xK66wKKA'
