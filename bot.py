@@ -7,7 +7,7 @@ vendor.add(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
 
 import telegram
 from flask import Flask, request
-from db import Post
+from db import Post, LastPostSent
 import datetime
 
 
@@ -25,9 +25,18 @@ def webhook_handler():
 
         text = update.message.text.encode('utf-8')
 
-        posts = Post.query(Post.date > (datetime.datetime.now()-datetime.timedelta(hours=12))).order(-Post.date).fetch(20)
+        date = datetime.datetime.now() - datetime.timedelta(hours=12)
+        lastpostsent = LastPostSent().get_or_insert(chat_id=chat_id, date=date)
+
+        if lastpostsent.date < date:
+            lastpostsent.date = date
+
+        posts = Post.query(Post.date > lastpostsent.date).order(-Post.date).fetch(20)
         for post in posts:
             bot.sendMessage(chat_id=chat_id, text=u'%s' % str(post.date) + u'\n' + u'%s' % post.text)
+            postdate = post.date
+        lastpostsent.date = postdate
+        lastpostsent.put()
 
     return 'ok'
 
