@@ -5,7 +5,7 @@ import os
 from google.appengine.ext import vendor
 vendor.add(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
 
-from google.appengine.ext import ndb
+from db import Post
 from flask import Flask
 import facebook
 import datetime
@@ -15,16 +15,6 @@ group = '402215639851440'
 #group = '147488415316365'
 
 app = Flask(__name__)
-
-
-class Post(ndb.Model):
-    text = ndb.StringProperty()
-    fb_id = ndb.StringProperty()
-    date = ndb.DateTimeProperty(auto_now_add=True)
-
-    @classmethod
-    def query_post(cls, ancestor_key):
-        return cls.query().order(-cls.date)
 
 
 @app.route('/cron', methods=['GET', 'POST'])
@@ -41,8 +31,6 @@ def cron_handler():
             post = Post(fb_id=p['id'], date=p['updated_time'], text=p['message'])
             k = post.put()
             logging.info("key id: %s %s" % (str(k.id), p['id']))
-
-    logging.info(Post.query().order(-Post.date).fetch(2))
 
     return 'ok'
 
