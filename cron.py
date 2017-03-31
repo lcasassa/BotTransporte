@@ -20,15 +20,15 @@ app = Flask(__name__)
 @app.route('/cron', methods=['GET', 'POST'])
 def cron_handler():
     graph = facebook.GraphAPI(access_token)
-    profile = graph.get_object(group+'/feed')
+    profile = graph.get_object(group+'/feed?fields=message,from,created_time,permalink_url')
     data = profile['data']
     for k in xrange(len(data)):
-        data[k]['updated_time'] = datetime.datetime.strptime(data[k]['updated_time'], "%Y-%m-%dT%H:%M:%S+%f")
+        data[k]['created_time'] = datetime.datetime.strptime(data[k]['created_time'], "%Y-%m-%dT%H:%M:%S+%f")
 
-    for p in sorted(data, key=lambda x: x['updated_time']):
+    for p in sorted(data, key=lambda x: x['created_time']):
         query = Post.query(Post.fb_id == p['id']).fetch(1)
         if len(query) <= 0:
-            post = Post(fb_id=p['id'], date=p['updated_time'], text=p['message'])
+            post = Post(fb_id=p['id'], date=p['created_time'], text=p['message'], username=p['from']['name'], user_id=p['from']['id'], url=p['permalink_url'])
             k = post.put()
             logging.info("key id: %s %s" % (str(k.id), p['id']))
 
