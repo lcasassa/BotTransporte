@@ -35,7 +35,8 @@ def webhook_handler():
 
         posts = Post.query(Post.date > lastpostsent.date).order(Post.date).fetch()
         for post in posts:
-            bot.sendMessage(chat_id=chat_id, text=u'%s' % str(post.date-datetime.timedelta(hours=3)) + u'\n' + u'%s' % post.text)
+            text = u'%s' % str(post.date-datetime.timedelta(hours=3)) + u'\n' + u'<a href="https://www.facebook.com/' + post.user_id + '">' + post.username + '</a>' + u'\n' + u'%s' % post.text + u'\n' + u'<a href="' + post.url + u'">Ir al post</a>'
+            bot.sendMessage(chat_id=chat_id, text=text, parse_mode='HTML')
             postdate = post.date
         if len(posts) <= 0:
             bot.sendMessage(chat_id=chat_id, text=u'No hay nuevos posts. :/ Intenta mas tarde.')
